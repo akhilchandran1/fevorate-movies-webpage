@@ -148,8 +148,10 @@ function getDateAndTime(){
   if(second < 10){
     second = "0" + second
   }
-  let getCurrentTime = hour + ":" + minute + ":" + second + " ";
-
+  let getCurrentTime;
+  if (hour >12) {
+    getCurrentTime = hour-12 + ":" + minute + ":" + second + " ";
+  }
   if(hour > 11){
     getCurrentTime += "P.M"
   }else{
