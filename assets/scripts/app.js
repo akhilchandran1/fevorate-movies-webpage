@@ -18,7 +18,7 @@ const updateUI = () => {
     }
 };
 
-const deleteMovie = movieId => {
+const deleteMovieHandler = movieId => {
     let movieIndex = 0;
     for (let movie of movies){
         if (movie.id === movieId) {
@@ -28,6 +28,8 @@ const deleteMovie = movieId => {
     }
     movies.splice(movieIndex, 1);
     listRoot.children[movieIndex].remove();
+    closeMovieDeletionModel();
+    updateUI();
 }
 
 const closeMovieDeletionModel = () => {
@@ -35,10 +37,18 @@ const closeMovieDeletionModel = () => {
     deleteMovieModel.classList.remove('visible');
 };
 
-const deleteMovieHandler = (movieId) => {
+const startDeleteMovieHandler = (movieId) => {
     deleteMovieModel.classList.add('visible');
     toggleBackdrop();
-    //deleteMovie(movieId);
+    const canselDeletionButton = deleteMovieModel.querySelector('.btn--passive');
+    let confirmDeletionButton  = deleteMovieModel.querySelector('.btn--danger');
+
+    confirmDeletionButton.replaceWith(confirmDeletionButton.cloneNode(true));
+    confirmDeletionButton = deleteMovieModel.querySelector('.btn--danger');
+    canselDeletionButton.removeEventListener('click', closeMovieDeletionModel);
+
+    canselDeletionButton.addEventListener('click', closeMovieDeletionModel);
+    confirmDeletionButton.addEventListener('click', deleteMovieHandler.bind(null, movieId));
 };
 
 const renderNewMovieElement = (id, title, imageUrl, rating) => {
@@ -53,7 +63,7 @@ const renderNewMovieElement = (id, title, imageUrl, rating) => {
             <p>${rating}/5 stars</p>
         </div>
         `;
-    newMovieElement.addEventListener('click', deleteMovieHandler.bind(null, id));
+    newMovieElement.addEventListener('click', startDeleteMovieHandler.bind(null, id));
     listRoot.append(newMovieElement);
 };
 
@@ -73,6 +83,7 @@ const showMovieModel = () => {
 const backdropClickHandler = () => {
     closeMovieModel();
     closeMovieDeletionModel();
+    clearMovieInput();
 }
 
 const clearMovieInput = () => {
@@ -83,6 +94,7 @@ const clearMovieInput = () => {
 
 const canselAddMovieHandler = () => {
     closeMovieModel();
+    toggleBackdrop(); 
     clearMovieInput();
 };
 
@@ -102,7 +114,7 @@ const addMovieHandler = () => {
     }
 
     const newMovie = {
-        id: Math.random() * Date.now(), //its not recommented.
+        id: Math.random() * Date.now(), //its not recommented I am using it for demonstration.
         title: titleValue,
         image: imageUrlValue,
         rating: ratingValue
