@@ -235,6 +235,13 @@ input:focus {
   flex-direction: column;
 }
 
+#time-update {
+  color: #0a1670;
+  font-size: 5.5rem;
+  font-weight: bolder;
+  text-align: center;
+}
+
 @media (min-width: 768px) {
   .modal {
     width: 40rem;

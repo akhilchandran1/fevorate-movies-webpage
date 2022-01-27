@@ -132,3 +132,29 @@ startAddMovieButton.addEventListener('click', showMovieModel);
 backdrop.addEventListener('click', backdropClickHandler);
 canselAddMovieButton.addEventListener('click', canselAddMovieHandler);
 confirmAddMovieButton.addEventListener('click', addMovieHandler);
+
+getDateAndTime();
+
+function getDateAndTime(){
+  const currentDateAndTime = new Date();
+  let hour = currentDateAndTime.getHours(),
+      minute = currentDateAndTime.getMinutes(),
+      second = currentDateAndTime.getSeconds();
+
+  if(minute < 10){
+    minute = "0" + minute
+  }
+
+  if(second < 10){
+    second = "0" + second
+  }
+  let getCurrentTime = hour + ":" + minute + ":" + second + " ";
+
+  if(hour > 11){
+    getCurrentTime += "P.M"
+  }else{
+    getCurrentTime += "A.M"
+  }
+  document.getElementById('time-update').innerHTML = getCurrentTime;
+  setTimeout(getDateAndTime,1000);
+}
